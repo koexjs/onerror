@@ -1,8 +1,8 @@
 import * as Koa from 'koa';
 import * as request from 'supertest';
 import * as bodyParser from 'koa-body';
-import validate from '@zcorky/koa-validate';
-import { get, post } from '@zcorky/koa-router';
+import validate from '@koex/validate';
+import { get, post } from '@koex/router';
 import 'should';
 
 import onerror from '../src';
