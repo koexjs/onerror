@@ -1,6 +1,6 @@
 {
   "name": "@koex/onerror",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "onerror for koa extend",
   "main": "lib/index.js",
   "module": "lib/index.js",
