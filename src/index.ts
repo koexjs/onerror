@@ -25,7 +25,7 @@ const createOnError = (options?: Options) => {
           ? ctx.logger.error(...args)
           : console.error(...args));
 
-  return async function onerror(ctx: Context, next: () => Promise<void>) {
+  return async function koexOnError(ctx: Context, next: () => Promise<void>) {
     try {
       await next();
     } catch (error) {
