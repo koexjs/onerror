@@ -1,7 +1,8 @@
 import * as Koa from 'koa';
 import * as request from 'supertest';
 import * as bodyParser from 'koa-body';
-import validate from '@koex/validate';
+import * as Joi from 'joi';
+import joi from '@koex/joi';
 import { get, post } from '@koex/router';
 import 'should';
 
@@ -59,7 +60,7 @@ describe('koa onerror', () => {
     });
   });
 
-  describe('with koa-validate', () => {
+  describe('with koa joi', () => {
     const app = new Koa();
 
     app.use(onerror({
@@ -71,14 +72,14 @@ describe('koa onerror', () => {
     }));
 
     app.use(bodyParser())
-    app.use(validate());
+    app.use(joi());
 
     app.use(post('/',
       async (ctx, next) => {
         console.log('post');
-        ctx.validate({
-          name: 'string',
-        });
+        await ctx.validate({
+          name: Joi.string(),
+        }, ctx.request.body);
 
         await next();
       }, async (ctx) => {
@@ -92,11 +93,26 @@ describe('koa onerror', () => {
         .expect(422, {
           code: 'invalid_param',
           message: 'Validation Failed',
-          errors: [{
-            code: 'invalid',
-            field: 'name',
-            message: 'should be a string',
-          }],
+          // detail: JSON.parse(JSON.stringify(Joi.validate({ name: Joi.string() }, { name: 123 }))).error,
+          detail: {
+            _object: {
+              name: 123,
+            },
+            details: [{
+              context: {
+                key: 'name',
+                label: 'name',
+                value: 123,
+              },
+              message: '"name" must be a string',
+              path: [
+                'name',
+              ],
+              type: 'string.base',
+            }],
+            isJoi: true,
+            name: 'ValidationError',
+          },
         });
     });
   });

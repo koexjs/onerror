@@ -15,14 +15,15 @@
     "prepublish": "npm run build"
   },
   "devDependencies": {
+    "@koex/joi": "^0.0.3",
+    "@koex/router": "^0.0.1",
+    "@koex/validate": "^0.0.1",
     "@types/debug": "^0.0.31",
     "@types/koa": "^2.0.47",
     "@types/mocha": "^5.2.5",
     "@types/ms": "^0.7.30",
     "@types/node": "^10.9.4",
     "@zcorky/delay": "^1.0.1",
-    "@koex/router": "^0.0.1",
-    "@koex/validate": "^0.0.1",
     "chai": "^4.1.2",
     "chai-spies": "^1.0.0",
     "coveralls": "^3.0.2",

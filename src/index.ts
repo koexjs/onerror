@@ -8,7 +8,7 @@ export interface InvalidateError {
 
 export interface Options {
   type?: 'json' | 'template';
-  template?: (status: number, message: string, code: string, errors?: InvalidateError[]) => string;
+  template?: (status: number, message: string, code: string, detail: any) => string;
   log?: (method: string, path: string, error: Error | string) => void;
 }
 
@@ -36,17 +36,17 @@ const createOnError = (options?: Options) => {
       const status = error.status || 500;
       const message = error.status ? error.message : 'Internal Server Error';
       const code = error.code;
-      const errors = error.errors;
+      const detail = error.detail;
 
       ctx.status = status;
 
       if (type === 'template') {
-        ctx.body = template ? template(status, message, code, errors) : error.message;
+        ctx.body = template ? template(status, message, code, detail) : error.message;
       } else {
         ctx.body = {
           code,
           message,
-          errors,
+          detail,
         };
       }
     }
